@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"> </script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script>
+
+        async function loadModel()
+        {
+            model= undefined;
+            model = await tf.loadLayersModel("model.json");
+            console.log("model loaded")
+        }
+        loadModel();
+
+        function make_prediction()
+        {
+            var a,b,c,d,e,f,output;
+
+            a = Number(document.getElementById("one").value);
+            b = Number(document.getElementById("two").value);
+            c = Number(document.getElementById("three").value);
+            d = Number(document.getElementById("four").value);
+            e = Number(document.getElementById("five").value);
+            f = Number(document.getElementById("six").value);
+
+            input_xs = tf.tensor2d([[a,b,c,d,e,f]]);
+            output = model.predict([[a,b,c,d,e,f]]);
+            const outputData = output.dataSync();
+            document.getElementById("answer").value = Number(output);
+        }
+
+    </script>
+
+</head>
+<body>
+    <input  id="one">
+    <input  id="two">
+    <input  id="three">
+    <input  id="four">
+    <input  id="five">
+    <input  id="six">
+    <button  onclick="make_prediction()">make prediction</button>
+    <input  id="answer">
+</body>
+</html>
